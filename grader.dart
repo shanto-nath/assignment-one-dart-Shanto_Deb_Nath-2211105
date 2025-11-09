@@ -1,18 +1,17 @@
 import 'dart:io';
-import 'dart:convert';
 
 void main() async {
   print('🎯 Dart Assignment Auto-Grader');
   print('============================\n');
   
-  var results = <String, Map<String, dynamic>>{};
+  final results = <String, Map<String, dynamic>>{};
   var totalScore = 0;
   var maxScore = 0;
   
   // Grade each question
-  for (int i = 1; i <= 5; i++) {
+  for (var i = 1; i <= 5; i++) {
     print('📝 Grading Question $i...');
-    var questionResult = await gradeQuestion(i);
+    final questionResult = await gradeQuestion(i);
     results['question$i'] = questionResult;
     totalScore += questionResult['score'] as int;
     maxScore += questionResult['maxScore'] as int;
@@ -24,8 +23,8 @@ void main() async {
   }
   
   // Calculate final grade
-  var percentage = (totalScore / maxScore * 100).round();
-  var letterGrade = getLetterGrade(percentage);
+  final percentage = (totalScore / maxScore * 100).round();
+  final letterGrade = getLetterGrade(percentage);
   
   // Write results to files
   await writeTestResults(results);
@@ -38,20 +37,20 @@ void main() async {
 }
 
 Future<Map<String, dynamic>> gradeQuestion(int questionNumber) async {
-  var maxScore = getMaxScore(questionNumber);
+  final maxScore = getMaxScore(questionNumber);
   var score = 0;
-  var errors = <String>[];
+  final errors = <String>[];
   
   try {
     // Check if file exists
-    var file = File('question$questionNumber.dart');
+    final file = File('question$questionNumber.dart');
     if (!await file.exists()) {
       errors.add('File question$questionNumber.dart not found');
       return {'score': 0, 'maxScore': maxScore, 'errors': errors};
     }
     
     // Check compilation
-    var compileResult = await Process.run('dart', ['analyze', 'question$questionNumber.dart']);
+    final compileResult = await Process.run('dart', ['analyze', 'question$questionNumber.dart']);
     if (compileResult.exitCode != 0) {
       errors.add('Compilation errors: ${compileResult.stderr}');
       score += 1; // Partial credit for attempting
@@ -79,7 +78,7 @@ Future<Map<String, dynamic>> gradeQuestion(int questionNumber) async {
     }
     
     // Check for specific requirements
-    var content = await file.readAsString();
+    final content = await file.readAsString();
     score += checkSpecificRequirements(questionNumber, content);
     
   } catch (e) {
@@ -89,7 +88,7 @@ Future<Map<String, dynamic>> gradeQuestion(int questionNumber) async {
   return {
     'score': score.clamp(0, maxScore),
     'maxScore': maxScore,
-    'errors': errors
+    'errors': errors,
   };
 }
 
@@ -109,11 +108,11 @@ Future<int> testQuestion1() async {
   
   try {
     // Test BMI calculation
-    var result = await Process.run('dart', ['question1.dart']);
+    final result = await Process.run('dart', ['question1.dart']);
     if (result.exitCode == 0) {
       score += 3; // Program runs successfully
       
-      var output = result.stdout.toString();
+      final output = result.stdout.toString();
       if (output.contains('BMI:') && output.contains('Grade:')) {
         score += 2; // Output format is correct
       }
@@ -129,11 +128,11 @@ Future<int> testQuestion2() async {
   var score = 0;
   
   try {
-    var result = await Process.run('dart', ['question2.dart']);
+    final result = await Process.run('dart', ['question2.dart']);
     if (result.exitCode == 0) {
       score += 3; // Program runs successfully
       
-      var output = result.stdout.toString();
+      final output = result.stdout.toString();
       if (output.contains('Student Scores:') && output.contains('Highest Score:')) {
         score += 2; // Output format is correct
       }
@@ -149,11 +148,11 @@ Future<int> testQuestion3() async {
   var score = 0;
   
   try {
-    var result = await Process.run('dart', ['question3.dart']);
+    final result = await Process.run('dart', ['question3.dart']);
     if (result.exitCode == 0) {
       score += 3; // Program runs successfully
       
-      var output = result.stdout.toString();
+      final output = result.stdout.toString();
       if (output.contains('Account:') && output.contains('Balance:')) {
         score += 2; // Output format is correct
       }
@@ -169,11 +168,11 @@ Future<int> testQuestion4() async {
   var score = 0;
   
   try {
-    var result = await Process.run('dart', ['question4.dart']);
+    final result = await Process.run('dart', ['question4.dart']);
     if (result.exitCode == 0) {
       score += 3; // Program runs successfully
       
-      var output = result.stdout.toString();
+      final output = result.stdout.toString();
       if (output.contains('Vehicle Info:') && output.contains('Starting the')) {
         score += 2; // Output format is correct
       }
@@ -189,11 +188,11 @@ Future<int> testQuestion5() async {
   var score = 0;
   
   try {
-    var result = await Process.run('dart', ['question5.dart']);
+    final result = await Process.run('dart', ['question5.dart']);
     if (result.exitCode == 0) {
       score += 3; // Program runs successfully
       
-      var output = result.stdout.toString();
+      final output = result.stdout.toString();
       if (output.contains('Manager:') && output.contains('Developer:')) {
         score += 2; // Output format is correct
       }
@@ -242,16 +241,16 @@ String getLetterGrade(int percentage) {
 }
 
 Future<void> writeTestResults(Map<String, Map<String, dynamic>> results) async {
-  var file = File('test_results.txt');
-  var content = StringBuffer();
+  final file = File('test_results.txt');
+  final content = StringBuffer();
   
   content.writeln('Dart Assignment Test Results');
   content.writeln('============================');
   content.writeln();
   
-  for (var entry in results.entries) {
-    var question = entry.key;
-    var result = entry.value;
+  for (final entry in results.entries) {
+    final question = entry.key;
+    final result = entry.value;
     content.writeln('$question: ${result['score']}/${result['maxScore']}');
     if (result['errors'].isNotEmpty) {
       content.writeln('  Errors: ${result['errors']}');
@@ -262,8 +261,8 @@ Future<void> writeTestResults(Map<String, Map<String, dynamic>> results) async {
 }
 
 Future<void> writeGradeSummary(int totalScore, int maxScore, int percentage, String letterGrade) async {
-  var file = File('grade_summary.txt');
-  var content = StringBuffer();
+  final file = File('grade_summary.txt');
+  final content = StringBuffer();
   
   content.writeln('Final Grade: $totalScore/$maxScore ($percentage%) - $letterGrade');
   content.writeln();
