@@ -1,95 +1,99 @@
-// Question 5: Advanced Features & Mixins (Difficulty: 5/5) ⭐⭐⭐⭐⭐
+// Question 5: Advanced Features & Mixins
+
 mixin Payable {
-  double calculateSalary(double baseSalary, double bonus) => baseSalary + bonus;
+  double calculateSalary(double baseSalary, double bonus) {
+    if (baseSalary < 0 || bonus < 0) {
+      throw ArgumentError("Salaries and bonuses must be non-negative.");
+    }
+    return baseSalary + bonus;
+  }
 
   void processPayment(double amount) {
-    print('Payment processed: \$${amount.toStringAsFixed(2)}');
+    if (amount <= 0) {
+      print("Payment amount must be positive.");
+      return;
+    }
+    print("Payment processed: ${amount.toStringAsFixed(1)}");
   }
 }
 
 mixin Reportable {
-  String generateReport(String employeeName, String department) => "Report: Monthly report for $employeeName in $department department";
+  String generateReport(String employeeName, String department) {
+    return "Monthly report for $employeeName in $department department";
+  }
 }
 
 abstract class Employee {
-
-  Employee(this.name, this.id, this.department);
   String name;
   String id;
   String department;
+
+  Employee(this.name, this.id, this.department);
 
   String getJobTitle();
   double getBaseSalary();
 
   void displayInfo() {
-    print('$name (ID: $id, Department: $department)');
-    print('Job Title: ${getJobTitle()}');
-    print('Base Salary: \$${getBaseSalary().toStringAsFixed(2)}');
+    print("$name (ID: $id, Department: $department)");
+    print("Job Title: ${getJobTitle()}");
+    print("Base Salary: ${getBaseSalary().toStringAsFixed(1)}");
   }
 }
 
-// Manager: uses both Payable and Reportable
 class Manager extends Employee with Payable, Reportable {
+  int teamSize;
 
   Manager(String name, String id, String department, this.teamSize)
       : super(name, id, department);
-  int teamSize;
 
   @override
-  String getJobTitle() => 'Manager';
+  String getJobTitle() => "Manager";
 
   @override
-  double getBaseSalary() => 8000;
+  double getBaseSalary() => 8000.0;
 
   @override
   void displayInfo() {
-    super.displayInfo(); // Reuse base info
-    print('Team Size: $teamSize');
+    print("Manager: $name (ID: $id, Department: $department, Team Size: $teamSize)");
+    print("Job Title: ${getJobTitle()}");
+    print("Base Salary: ${getBaseSalary().toStringAsFixed(1)}");
   }
 }
 
-// Developer: uses only Payable
 class Developer extends Employee with Payable {
+  String programmingLanguage;
 
   Developer(String name, String id, String department, this.programmingLanguage)
       : super(name, id, department);
-  String programmingLanguage;
 
   @override
-  String getJobTitle() => 'Senior Developer';
+  String getJobTitle() => "Senior Developer";
 
   @override
-  double getBaseSalary() => 6000;
+  double getBaseSalary() => 6000.0;
 
   @override
   void displayInfo() {
-    super.displayInfo(); // Reuse base info
-    print('Programming Language: $programmingLanguage');
+    print("Developer: $name (ID: $id, Department: $department, Language: $programmingLanguage)");
+    print("Job Title: ${getJobTitle()}");
+    print("Base Salary: ${getBaseSalary().toStringAsFixed(1)}");
   }
 }
 
 void main() {
-  // Create employees
-  var manager = Manager('John Smith', 'M001', 'IT', 5);
-  var developer = Developer('Alice Johnson', 'D001', 'IT', 'Dart');
+  final mgr = Manager("Shanto", "M001", "IT", 5);
+  final dev = Developer("Polok", "D001", "IT", "Dart");
 
-  // Demonstrate salary calculation with bonus
-  var managerSalary =
-      manager.calculateSalary(manager.getBaseSalary(), 1000);
-  var developerSalary =
-      developer.calculateSalary(developer.getBaseSalary(), 500);
+  // Manager demo
+  mgr.displayInfo();
+  final mgrCalculated = mgr.calculateSalary(mgr.getBaseSalary(), 1000.0);
+  print("Calculated Salary: ${mgrCalculated.toStringAsFixed(1)}");
+  mgr.processPayment(mgrCalculated);
+  print("Report: ${mgr.generateReport(mgr.name, mgr.department)}\n");
 
-  // === Manager Demo ===
-  manager.displayInfo();
-  print('Calculated Salary: \$${managerSalary.toStringAsFixed(2)}');
-  manager.processPayment(managerSalary);
-  print(manager.generateReport(manager.name, manager.department));
-  print('');
-
-  // === Developer Demo ===
-  developer.displayInfo();
-  print('Calculated Salary: \$${developerSalary.toStringAsFixed(2)}');
-  developer.processPayment(developerSalary);
-
-  // Note: developer.generateReport() would cause error — correctly not called!
+  // Developer demo
+  dev.displayInfo();
+  final devCalculated = dev.calculateSalary(dev.getBaseSalary(), 500.0);
+  print("Calculated Salary: ${devCalculated.toStringAsFixed(1)}");
+  dev.processPayment(devCalculated);
 }

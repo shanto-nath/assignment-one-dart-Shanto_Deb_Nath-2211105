@@ -5,28 +5,28 @@ import '../question3.dart';
 void main() {
   group('Question 3 Tests', () {
     test('BankAccount class can be instantiated', () {
-      final account = BankAccount('12345', 'Alice', 'Savings');
+      final account = BankAccount('12345', 'Shanto', 'Savings');
       expect(account.accountNumber, equals('12345'));
-      expect(account.accountHolder, equals('Alice'));
+      expect(account.accountHolder, equals('Shanto'));
       expect(account.accountType, equals('Savings'));
       expect(account.balance, equals(0.0));
     });
     
     test('deposit method works correctly', () {
-      final account = BankAccount('12345', 'Alice', 'Savings');
+      final account = BankAccount('12345', 'Shanto', 'Savings');
       account.deposit(100);
       expect(account.getBalance(), equals(100.0));
     });
     
     test('withdraw method works correctly', () {
-      final account = BankAccount('12345', 'Alice', 'Savings');
+      final account = BankAccount('12345', 'Shanto', 'Savings');
       account.deposit(100);
       account.withdraw(50);
       expect(account.getBalance(), equals(50.0));
     });
     
     test('withdraw handles insufficient funds', () {
-      final account = BankAccount('12345', 'Alice', 'Savings');
+      final account = BankAccount('12345', 'Shanto', 'Savings');
       account.deposit(50);
       
       // Test that withdraw doesn't change balance when insufficient funds

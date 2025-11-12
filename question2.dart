@@ -6,87 +6,79 @@ import 'dart:math';
 void main() {
   // 1. Create a List<String> of student names: ["Alice", "Bob", "Charlie", "Diana", "Eve"]
   // TODO: Create the student names list
-  final studentNames = <String>[
-    'Shanto',
-    'Polok',
-    'Taranaya',
-    'Nahin',
-    'Arni',
-  ]; // TODO: Add the student names
-
+  List<String> studentNames = ["Shanto", "Polok", "Illin", "Arni", "Sazzad"]; // TODO: Add the student names
+  
   // 2. Create a Map<String, int> to store student scores
   // TODO: Create the scores map
-  final var studentScores = <String, int>{}; // TODO: Initialize the map
-
+  Map<String, int> studentScores = {}; // TODO: Initialize the map
+  
   // 3. Use a for loop to assign random scores (60-100) to each student
   // TODO: Implement the for loop to assign random scores
-  final var random = Random();
-  for (final student in studentNames) {
-    studentScores[student] = 60 + random.nextInt(41); // 60–100
-  }
+  Random random = Random();
   // TODO: Add your for loop here
-
+  for (String student in studentNames){
+    studentScores[student] = 60 + random.nextInt(41);
+  }
+  
   // 4. Find and display:
   //    - The student with the highest score
   //    - The student with the lowest score
   //    - The average score of all students
   // TODO: Implement the logic to find highest, lowest, and average scores
-  var highestStudent = '';
-  var highestScore = 0;
-  var lowestStudent = '';
-  var lowestScore = 100;
-  var averageScore = 0;
-
+  String highestStudent = "";
+  int highestScore = 0;
+  String lowestStudent = "";
+  int lowestScore = 100;
+  double averageScore = 0.0;
+  
   // TODO: Add your logic here
+  int totalScore =0;
 
-  var total = 0;
-  for (final entry in studentScores.entries) {
-    final score = entry.value;
-    total += score;
-
-    if (score > highestScore) {
-      highestScore = score;
-      highestStudent = entry.key;
+  studentScores.forEach((student, score) {
+    totalScore += score;
+    if (score>highestScore){
+      highestScore=score;
+      highestStudent=student;
     }
-
-    if (score < lowestScore) {
-      lowestScore = score;
-      lowestStudent = entry.key;
+    if (score<lowestScore){
+      lowestScore=score;
+      lowestStudent=student;
     }
-  }
-  averageScore = total / studentScores.length;
+  });
 
-  print('Student Scores: $studentScores');
-  print('Highest Score: $highestStudent with $highestScore');
-  print('Lowest Score: $lowestStudent with $lowestScore');
-  print('Average Score: $averageScore');
-
+  averageScore =totalScore/studentScores.length;
+  
+  print("Student Scores: $studentScores");
+  print("Highest Score: $highestStudent with $highestScore");
+  print("Lowest Score: $lowestStudent with $lowestScore");
+  print("Average Score: ${averageScore.toStringAsFixed(2)}");
+  
   // 5. Use a switch statement to categorize students:
   //    - 90-100: "Excellent"
   //    - 80-89: "Good"
   //    - 70-79: "Average"
   //    - Below 70: "Needs Improvement"
   // TODO: Implement the switch statement for each student
-  for (final student in studentNames) {
-    final score = studentScores[student] ?? 0;
-    var category = '';
-
+  for (String student in studentNames) {
+    int score = studentScores[student] ?? 0;
+    String category = "";
+    
     // TODO: Add your switch statement here
     switch (score ~/ 10) {
       case 10:
       case 9:
-        category = 'Excellent';
+        category = "Excellent";
         break;
       case 8:
-        category = 'Good';
+        category = "Good";
         break;
       case 7:
-        category = 'Average';
+        category = "Average";
         break;
       default:
-        category = 'Needs Improvement';
+        category = "Needs Improvement";
     }
-
-    print('$student: $score ($category)');
+    
+    print("$student: $score ($category)");
   }
 }
