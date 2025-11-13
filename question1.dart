@@ -3,7 +3,7 @@
 
 // 1. Create variables of different data types: String, int, double, bool
 // TODO: Add your variables here
-String name = "Shanto Deb Nath"; // TODO: Initialize with your name
+String name = 'Shanto Deb Nath'; // TODO: Initialize with your name
 int age = 24; // TODO: Initialize with your age
 double height = 1.80; // TODO: Initialize with your height
 bool isStudent = true; // TODO: Initialize with true or false
@@ -24,15 +24,15 @@ double calculateBMI(double weight, double height) {
 // TODO: Implement the getGrade function
 String getGrade(int score) {
   if (score >=90 && score <=100){
-    return "A";
+    return 'A';
   } else if (score >= 80 && score <=89){
-    return "B";
+    return 'B';
   } else if (score >=70 && score <=79){
-    return "C";
+    return 'C';
   } else if (score >=60 && score <=69){
-    return "D";
+    return 'D';
   } else{
-    return "F";
+    return 'F';
   }
 }
   // TODO: Add your logic here
@@ -41,18 +41,18 @@ String getGrade(int score) {
 
 void main() {
   // TODO: Initialize your variables with appropriate values
-  name = "Shanto Deb Nath";
+  name = 'Shanto Deb Nath';
   age = 24;
   height = 1.80;
   isStudent = true;
   
   // TODO: Calculate BMI and grade
-  double weight =63.0;
-  double bmi = calculateBMI(63.0, height); // Example: 150 lbs, 5.9 ft
-  String grade = getGrade(97); // Example score
+  var weight =63;
+  var bmi = calculateBMI(63, height); // Example: 150 lbs, 5.9 ft
+  var grade = getGrade(97); // Example score
   
   // TODO: Use string interpolation to display the results
-  print("Name: $name, Age: $age, Height: $height, Is Student: $isStudent");
-  print("BMI: $bmi");
-  print("Grade: $grade");
+  print('Name: $name, Age: $age, Height: $height, Is Student: $isStudent');
+  print('BMI: $bmi');
+  print('Grade: $grade');
 }
